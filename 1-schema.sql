@@ -21,9 +21,9 @@ USE `amineSQL` ;
 -- Table `amineSQL`.`year`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amineSQL`.`year` (
-  `idyear` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `label` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`idyear`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -32,14 +32,14 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `amineSQL`.`module`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amineSQL`.`module` (
-  `idmodule` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `year` INT NOT NULL,
-  PRIMARY KEY (`idmodule`),
+  PRIMARY KEY (`id`),
   INDEX `fk_year_idx` (`year` ASC),
   CONSTRAINT `fk_year`
     FOREIGN KEY (`year`)
-    REFERENCES `amineSQL`.`year` (`idyear`)
+    REFERENCES `amineSQL`.`year` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -50,10 +50,10 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `amineSQL`.`student`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amineSQL`.`student` (
-  `idstudent` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL,
   `firstname` VARCHAR(255) NOT NULL,
   `lastname` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`idstudent`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -63,8 +63,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amineSQL`.`assessment` (
   `attempted` DATETIME NOT NULL,
-  `id_module` INT(11) NOT NULL,
-  `id_student` INT(11) NOT NULL,
+  `id_module` INT NOT NULL,
+  `id_student` INT NOT NULL,
   `passed` DATETIME NULL,
   `grade` INT NULL,
   PRIMARY KEY (`attempted`, `id_module`, `id_student`),
@@ -72,12 +72,12 @@ CREATE TABLE IF NOT EXISTS `amineSQL`.`assessment` (
   INDEX `fk_assessment_student1_idx` (`id_student` ASC),
   CONSTRAINT `fk_assessment_module1`
     FOREIGN KEY (`id_module`)
-    REFERENCES `amineSQL`.`module` (`idmodule`)
+    REFERENCES `amineSQL`.`module` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_assessment_student1`
     FOREIGN KEY (`id_student`)
-    REFERENCES `amineSQL`.`student` (`idstudent`)
+    REFERENCES `amineSQL`.`student` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -87,20 +87,20 @@ ENGINE = InnoDB;
 -- Table `amineSQL`.`enrolment`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `amineSQL`.`enrolment` (
-  `id_student` INT(11) NOT NULL,
-  `id_year` INT(11) NOT NULL,
+  `id_student` INT NOT NULL,
+  `id_year` INT NOT NULL,
   `from` DATETIME NOT NULL,
   `to` DATETIME NULL,
   PRIMARY KEY (`id_student`, `id_year`),
   INDEX `fk_enrolment_year1_idx` (`id_year` ASC),
   CONSTRAINT `fk_enrolment_student1`
     FOREIGN KEY (`id_student`)
-    REFERENCES `amineSQL`.`student` (`idstudent`)
+    REFERENCES `amineSQL`.`student` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_enrolment_year1`
     FOREIGN KEY (`id_year`)
-    REFERENCES `amineSQL`.`year` (`idyear`)
+    REFERENCES `amineSQL`.`year` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
