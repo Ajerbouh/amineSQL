@@ -1,1 +1,1 @@
-select AVG(a.grade) from assessment as a INNER JOIN student as s ON s.id = a.id_student LEFT JOIN enrolment as e on e.id_student = s.id where e.id_year = "2";
+select CONCAT(s.firstname, ' ', s.lastname) as fullname, AVG(a.grade) from student as s RIGHT JOIN assessment as a ON a.id_student = s.id RIGHT JOIN enrolment as e ON e.id_student = s.id WHERE e.id_year="2" GROUP BY fullname ORDER BY fullname ASC;
